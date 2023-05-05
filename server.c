@@ -69,6 +69,8 @@ int main(int argc, char** argv) {
     if(new_fd == -1) {
         fprintf(stderr, "Error occured on accepting connection from: %s:%s\n", "", "");
         return 1;
+    } else {
+        printf("TCP handshake complete with: %s:%d\n", inet_ntoa(their_addr.sin_addr), ntohs(their_addr.sin_port));
     }
 
 
