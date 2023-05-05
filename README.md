@@ -229,3 +229,5 @@ Bu durumda errno isimli global değişken hata kodunu tutar (bkz. perror() man s
 *   htonl() -- "Host to Network Long" -- konaktan ağa long
 *   ntohs() -- "Network to Host Short" -- ağdan konağa short
 *   ntohl() -- "Network to Host Long" -- ağdan konağa long
+
+*   inet_ntoa(struct in_addr in) -- "Network to ASCII"
