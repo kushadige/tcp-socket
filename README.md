@@ -1,6 +1,6 @@
 # C dilinde TCP socket programlama özet notlar (Windows - Unix)
 
-![tcp_handshake_local](https://user-images.githubusercontent.com/101992799/236584420-e53f8ee2-d9ae-4dc2-832a-9dcb794df5f3.png)
+![tcp_handshake_local](https://user-images.githubusercontent.com/101992799/236589591-dc1c3858-b1ec-496a-82d4-8c871529d6f1.png)
 
 ### #0 - Fonksiyonlarda hata yönetimi
 Tüm fonksiyonlarda eğer bir hata oluşursa işlevler -1 değerini döndürür.
