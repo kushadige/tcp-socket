@@ -16,6 +16,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+
     // define vars
     int sockfd;
     struct sockaddr_in my_addr;
@@ -29,6 +30,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Error occured on creating sockfd.\n");
         return 1;
     }
+    printf("[+]Client Socket is created.\n");
 
 
     // bind an ip & port
@@ -40,9 +42,10 @@ int main(int argc, char** argv) {
     errorHandler = bind(sockfd, (struct sockaddr*)&my_addr, sizeof(struct sockaddr));
 
     if(errorHandler == -1) {
-        fprintf(stderr, "Error occured on binding a port\n");
+        fprintf(stderr, "[-]Error occured on binding a port\n");
         return 1;
     }
+    printf("[+]Binding a port has been successfully completed.\n");
 
 
     // connect a socket
@@ -54,13 +57,29 @@ int main(int argc, char** argv) {
     errorHandler = connect(sockfd, (struct sockaddr*)&dest_addr, sizeof(struct sockaddr));
 
     if(errorHandler == -1) {
-        fprintf(stderr, "Error occured on connecting: %s:%d\n", DEST_IP, DEST_PORT);
+        fprintf(stderr, "[-]Error occured on connecting: %s:%d\n", DEST_IP, DEST_PORT);
         return 1;
-    } else {
-        printf("connected.\n");
+    } 
+    printf("[+]Connected to Server.\n");
+
+    // send messages to server.
+    char buffer[1024];
+    int bytes_sent;
+    while(1) {
+        printf("Client: ");
+        scanf("%s", buffer);
+        bytes_sent = send(sockfd, buffer, strlen(buffer), 0);
+
+        if(bytes_sent == -1) {
+            fprintf(stderr, "[-]Message couldn't send to server.\n");
+            break;
+        }
+
+        // if(bytes_sent < strlen(buffer)) {}   // verinin tamamı gönderildi mi kontrolü.
     }
 
     closesocket(sockfd);
+    printf("[+]Connection closed.");
     WSACleanup();
     return 0;
 }

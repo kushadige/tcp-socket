@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
 
     // initialize WSAStartup function which is inside the Ws2_32.lib the network programming on windows.
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        fprintf(stderr, "WSAStartup failed.\n");
+        fprintf(stderr, "[-]WSAStartup failed.\n");
         return 1;
     }
 
@@ -29,9 +29,10 @@ int main(int argc, char** argv) {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if(sockfd == -1) {
-        fprintf(stderr, "Error occured on creating sockfd.\n");
+        fprintf(stderr, "[-]Error occured on creating sockfd.\n");
         return 1;
     }
+    printf("[+]Server Socket has been created.\n");
 
     my_addr.sin_family = AF_INET;
     my_addr.sin_port = htons(MYPORT);                      // host to network short translation
@@ -48,18 +49,20 @@ int main(int argc, char** argv) {
     errorHandler = bind(sockfd, (struct sockaddr*)&my_addr, sizeof(struct sockaddr));
 
     if(errorHandler == -1) {
-        fprintf(stderr, "Error occured on binding port: %d\n", MYPORT);
+        fprintf(stderr, "[-]Error occured on binding port: %d\n", MYPORT);
         return 1;
     }
+    printf("[+]Binding a port has been successfully completed.\n");
 
 
     // listening socket
     errorHandler = listen(sockfd, BACKLOG);
 
     if(errorHandler == -1) {
-        fprintf(stderr, "Error occured on binding port: %d\n", MYPORT);
+        fprintf(stderr, "[-]Error occured on listening port: %d\n", MYPORT);
         return 1;
     }
+    printf("[+]Listening on port: %d.\n", MYPORT);
 
 
     // accepting a request
@@ -67,10 +70,10 @@ int main(int argc, char** argv) {
     new_fd = accept(sockfd, (struct sockaddr*)&their_addr, &sin_size);
 
     if(new_fd == -1) {
-        fprintf(stderr, "Error occured on accepting connection from: %s:%s\n", "", "");
+        fprintf(stderr, "[-]Error occured on accepting connection from: %s:%s\n", "", "");
         return 1;
     } else {
-        printf("TCP handshake complete with: %s:%d\n", inet_ntoa(their_addr.sin_addr), ntohs(their_addr.sin_port));
+        printf("[+]TCP handshake complete with: %s:%d\n", inet_ntoa(their_addr.sin_addr), ntohs(their_addr.sin_port));
     }
 
 
@@ -82,7 +85,7 @@ int main(int argc, char** argv) {
     bytes_sent = send(new_fd, msg, len, 0);
 
     if(bytes_sent == -1) {
-        fprintf(stderr, "Message couldn't send to receiver.\n");
+        fprintf(stderr, "[-]Message couldn't send to receiver.\n");
         return 1;
     }
 
@@ -97,7 +100,7 @@ int main(int argc, char** argv) {
             break;
         }
         if(buffer) {
-            printf("got data %s", buffer);
+            printf("Got data from:\t%s:%d%5s|%5sMessage: %s\n", inet_ntoa(their_addr.sin_addr), ntohs(their_addr.sin_port), " ", " ", buffer);
             memset(buffer, 0, sizeof(buffer));
         }
     }
@@ -106,6 +109,7 @@ int main(int argc, char** argv) {
     // closing the sockets after the connections are complete and WSACleanup().
     closesocket(sockfd);
     closesocket(new_fd);
+    printf("[+]Connection closed.");
     WSACleanup();
     return 0;
 }
