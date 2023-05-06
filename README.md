@@ -1,5 +1,7 @@
 # C dilinde TCP socket programlama özet notlar (Windows - Unix)
 
+![tcp_handshake_local](https://user-images.githubusercontent.com/101992799/236584420-e53f8ee2-d9ae-4dc2-832a-9dcb794df5f3.png)
+
 ### #0 - Fonksiyonlarda hata yönetimi
 Tüm fonksiyonlarda eğer bir hata oluşursa işlevler -1 değerini döndürür.
 Bu durumda errno isimli global değişken hata kodunu tutar (bkz. perror() man sayfası.)
